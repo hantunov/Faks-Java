@@ -19,7 +19,7 @@ import javafx.util.Callback;
 
 public class ZupanijeController {
 
-	private List<Zupanija> listaZupanija;
+	private static List<Zupanija> listaZupanija;
 	
 	@FXML
 	private TextField zupanijeFilterTextField;
@@ -41,6 +41,8 @@ public class ZupanijeController {
 				});
 		
 		listaZupanija = Main.dohvatiZupanije();
+		
+		zupanijeTableView.setItems(Main.observableListaZupanija);
 	}
 
 	public void prikaziZupanije() {
@@ -53,5 +55,13 @@ public class ZupanijeController {
 		}
 		ObservableList<Zupanija> listaZupanija = FXCollections.observableArrayList(filtriraneZupanije);
 		zupanijeTableView.setItems(listaZupanija);
+	}
+
+	public static void dodajNovuZupaniju(int noviId, Zupanija novaZupanija) {
+		
+		listaZupanija.add(novaZupanija);
+		Main.observableListaZupanija = FXCollections.observableArrayList(listaZupanija);
+		Main.prikaziEkranZupanije();	
+		
 	}
 }

@@ -25,6 +25,7 @@ import hr.java.vjezbe.entitet.VrstaMjesta;
 import hr.java.vjezbe.entitet.Zupanija;
 import hr.java.vjezbe.glavna.Glavna;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -39,6 +40,13 @@ public class Main extends Application {
 	public static Map<Integer, GeografskaTocka> geografskeTocke = ucitajGeografskeTocke(ucitajDatoteku("dat\\geografsketocke.txt"));
 	public static Map<Integer, Senzor> senzori = ucitajSenzore(ucitajDatoteku("dat\\senzori.txt"));
 	public static Map<Integer, MjernaPostaja> postaje = ucitajPostaje(ucitajDatoteku("dat\\mjernepostaje.txt"), mjesta, geografskeTocke, senzori);
+	
+	static ObservableList<Mjesto> observableListaMjesta;
+	static ObservableList<Zupanija> observableListaZupanija;
+	static ObservableList<MjernaPostaja> observableListaPostaja;
+	static ObservableList<Drzava> observableListaDrzava;
+	static ObservableList<Senzor> observableListaSenzora;
+	static ObservableList<GeografskaTocka> observableListaGeografskihTocaka;
 	
 	private static BorderPane root;
 	private Stage primaryStage;
@@ -130,8 +138,9 @@ public class Main extends Application {
 	
 	public static Map<Integer, Zupanija> ucitajZupanije(List<String> listaStringova, Map<Integer, Drzava> drzaveIzDatoteke) {
 		
-		int brojRedovaZaZupaniju = 2;
+		int brojRedovaZaZupaniju = 3;
 		int id = 0;
+		int idDrzave = 0;
 		String naziv = null;
 		Map<Integer, Zupanija> zupanijeIzDatoteke = new HashMap<>();
 		
@@ -145,7 +154,10 @@ public class Main extends Application {
 					break;
 				case 1:
 					naziv = red;
-					zupanijeIzDatoteke.put(id, new Zupanija(id, naziv, drzaveIzDatoteke.get(id)));
+					break;
+				case 2:
+					idDrzave = Integer.parseInt(red);
+					zupanijeIzDatoteke.put(id, new Zupanija(id, naziv, drzaveIzDatoteke.get(idDrzave)));
 					break;
 				default:
 					break;
@@ -157,9 +169,11 @@ public class Main extends Application {
 	
 	public static Map<Integer, Mjesto> ucitajMjesta(List<String> listaStringova, Map<Integer, Zupanija> zupanijeIzDatoteke) {
 		
-		int brojRedovaZaMjesto = 3;
+		int brojRedovaZaMjesto = 4;
 		int id = 0;
+		int idZupanije = 0;
 		String naziv = null;
+		VrstaMjesta vrstaMjesta = null;
 		Map<Integer, Mjesto> mjestaIzDatoteke = new HashMap<>();
 		
 		for (int i = 0; i < listaStringova.size(); i++) {
@@ -174,8 +188,11 @@ public class Main extends Application {
 					naziv = red;
 					break;
 				case 2:
-					VrstaMjesta vrstaMjesta = VrstaMjesta.valueOf(red);
-					mjestaIzDatoteke.put(id, new Mjesto(id, naziv, zupanijeIzDatoteke.get(id), vrstaMjesta));
+					vrstaMjesta = VrstaMjesta.valueOf(red);
+					break;
+				case 3:
+					idZupanije = Integer.parseInt(red);					
+					mjestaIzDatoteke.put(id, new Mjesto(id, naziv, zupanijeIzDatoteke.get(idZupanije), vrstaMjesta));
 				default:
 					break;
 			}
@@ -262,8 +279,10 @@ public class Main extends Application {
 	
 	public static Map<Integer, MjernaPostaja> ucitajPostaje(List<String> listaStringova, Map<Integer, Mjesto> mjestaIzDatoteke, Map<Integer, GeografskaTocka> tockeIzDatoteke, Map<Integer, Senzor> senzoriIzDatoteke){
 		
-		int brojRedovaZaPostaju = 3;
+		int brojRedovaZaPostaju = 5;
 		int id = 0;
+		int idMjesta = 0;
+		int idTocke = 0;
 		String vrstaMjernePostaje = null;
 		String naziv = null;
 		Map<Integer, MjernaPostaja> postajeIzDatoteke = new HashMap<>();
@@ -281,18 +300,24 @@ public class Main extends Application {
 					break;
 				case 2:
 					naziv = red;
+					break;
+				case 3:
+					idMjesta = Integer.parseInt(red);
+					break;
+				case 4:
+					idTocke = Integer.parseInt(red);
 					if(vrstaMjernePostaje.equals("RSMP")) {
 						Senzori<Senzor> senzori = new Senzori<>();
 						for(int j = 1; j<=senzoriIzDatoteke.size(); j++) {
 							senzori.getSenzori().add(senzoriIzDatoteke.get(j));														
 						}						
-						postajeIzDatoteke.put(id, new RadioSondaznaMjernaPostaja(id, naziv, mjestaIzDatoteke.get(id), tockeIzDatoteke.get(id), senzori, 100));
+						postajeIzDatoteke.put(id, new RadioSondaznaMjernaPostaja(id, naziv, mjestaIzDatoteke.get(idMjesta), tockeIzDatoteke.get(idTocke), senzori, 100));
 					} else if (vrstaMjernePostaje.equals("MP")){
 						Senzori<Senzor> senzori = new Senzori<>();
 						for(int j = 1; j<=senzoriIzDatoteke.size(); j++) {
 							senzori.getSenzori().add(senzoriIzDatoteke.get(j));														
 						}						
-						postajeIzDatoteke.put(id, new MjernaPostaja(id, naziv, mjestaIzDatoteke.get(id), tockeIzDatoteke.get(id), senzori));						
+						postajeIzDatoteke.put(id, new MjernaPostaja(id, naziv, mjestaIzDatoteke.get(idMjesta), tockeIzDatoteke.get(idTocke), senzori));						
 					}
 					break;
 				default:
@@ -327,6 +352,51 @@ public class Main extends Application {
 	public static List<MjernaPostaja> dohvatiPostaje() {
 		
 		return postaje.values().stream().collect(Collectors.toList());
+	}
+	
+	public static void prikaziEkranMjesta() {
+		try {
+			BorderPane mjestaPane = FXMLLoader.load(Main.class.getResource("Mjesta.fxml"));
+			Main.setCenterPane(mjestaPane);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void prikaziEkranZupanije() {
+		try {
+			BorderPane zupanijePane = FXMLLoader.load(Main.class.getResource("Zupanije.fxml"));
+			Main.setCenterPane(zupanijePane);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void prikaziEkranDrzave() {
+		try {
+			BorderPane drzavePane = FXMLLoader.load(Main.class.getResource("Drzave.fxml"));
+			Main.setCenterPane(drzavePane);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void prikaziEkranMjernePostaje() {
+		try {
+			BorderPane postajePane = FXMLLoader.load(Main.class.getResource("Postaje.fxml"));
+			Main.setCenterPane(postajePane);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void prikaziEkranSenzori() {
+		try {
+			BorderPane senzoriPane = FXMLLoader.load(Main.class.getResource("Senzori.fxml"));
+			Main.setCenterPane(senzoriPane);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

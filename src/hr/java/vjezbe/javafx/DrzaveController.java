@@ -19,7 +19,7 @@ import javafx.util.Callback;
 
 public class DrzaveController {
 
-	private List<Drzava> listaDrzava;
+	private static List<Drzava> listaDrzava;
 	
 	@FXML
 	private TextField drzaveFilterTextField;
@@ -42,6 +42,8 @@ public class DrzaveController {
 				});
 		
 		listaDrzava = Main.dohvatiDrzave();
+		
+		drzaveTableView.setItems(Main.observableListaDrzava);
 	}
 
 	public void prikaziDrzave() {
@@ -54,6 +56,13 @@ public class DrzaveController {
 		}
 		ObservableList<Drzava> listaDrzava = FXCollections.observableArrayList(filtriraneDrzave);
 		drzaveTableView.setItems(listaDrzava);
+	}
+
+	public static void dodajNovuDrzavu(int noviId, Drzava novaDrzava) {
+
+		listaDrzava.add(novaDrzava);
+		Main.observableListaDrzava = FXCollections.observableArrayList(listaDrzava);
+		Main.prikaziEkranDrzave();		
 	}
 	
 }

@@ -1,9 +1,16 @@
 1
 Zagreb
 GRAD
+1
 2
 Ljubljana
 GRAD
+2
 3
 Munich
 GRAD
+3
+4
+Šibenik
+GRAD
+5

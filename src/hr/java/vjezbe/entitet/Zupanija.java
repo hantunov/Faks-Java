@@ -31,6 +31,10 @@ public class Zupanija extends BazniEntitet {
 		this.mjesta = new ArrayList<>();
 		setId(id);
 	}
+	
+	public String toString() {
+		return this.naziv;
+	}
 
 	public String getNaziv() {
 		return naziv;

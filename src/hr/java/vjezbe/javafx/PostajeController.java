@@ -19,7 +19,7 @@ import javafx.util.Callback;
 
 public class PostajeController {
 	
-	private List<MjernaPostaja> listaPostaja;
+	private static List<MjernaPostaja> listaPostaja;
 	
 	@FXML
 	private TextField postajeFilterTextField;
@@ -51,6 +51,8 @@ public class PostajeController {
 				});
 		
 		listaPostaja = Main.dohvatiPostaje();
+		
+		postajeTableView.setItems(Main.observableListaPostaja);
 	}
 
 	public void prikaziPostaje() {
@@ -63,6 +65,14 @@ public class PostajeController {
 		}
 		ObservableList<MjernaPostaja> listaPostaja = FXCollections.observableArrayList(filtriranePostaje);
 		postajeTableView.setItems(listaPostaja);
+	}
+
+	public static void dodajNovuMjernuPostaju(int noviId, MjernaPostaja novaMjernaPostaja) {
+
+		listaPostaja.add(novaMjernaPostaja);
+		Main.observableListaPostaja = FXCollections.observableArrayList(listaPostaja);
+		Main.prikaziEkranMjernePostaje();		
+		
 	}
 	
 }

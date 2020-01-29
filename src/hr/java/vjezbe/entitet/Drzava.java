@@ -32,6 +32,10 @@ public class Drzava extends BazniEntitet {
 		this.zupanije = new ArrayList<>();
 		setId(id);
 	}
+	
+	public String toString() {
+		return this.naziv;
+	}
 
 	public String getNaziv() {
 		return naziv;

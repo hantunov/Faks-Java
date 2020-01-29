@@ -19,7 +19,7 @@ import javafx.util.Callback;
 
 public class MjestaController {
 
-	private List<Mjesto> listaMjesta;
+	private static List<Mjesto> listaMjesta;
 	
 	@FXML
 	private TextField mjestaFilterTextField;
@@ -51,6 +51,8 @@ public class MjestaController {
 				});
 		
 		listaMjesta = Main.dohvatiMjesta();
+		
+		mjestaTableView.setItems(Main.observableListaMjesta);
 	}
 
 	public void prikaziMjesta() {
@@ -63,5 +65,12 @@ public class MjestaController {
 		}
 		ObservableList<Mjesto> listaMjesta = FXCollections.observableArrayList(filtriranaMjesta);
 		mjestaTableView.setItems(listaMjesta);
+	}
+
+	public static void dodajNovoMjesto(int key, Mjesto novoMjesto) {
+		
+		listaMjesta.add(novoMjesto);
+		Main.observableListaMjesta = FXCollections.observableArrayList(listaMjesta);
+		Main.prikaziEkranMjesta();		
 	}
 }

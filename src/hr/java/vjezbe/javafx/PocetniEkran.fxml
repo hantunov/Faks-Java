@@ -20,26 +20,31 @@
             <Menu mnemonicParsing="false" text="Mjesta">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#prikaziEkranMjesta" text="Dohvat" />
+                  <MenuItem mnemonicParsing="false" onAction="#prikaziEkranZaNovoMjesto" text="Dodaj" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" onAction="#prikaziEkranZupanije" text="Županije">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#prikaziEkranZupanije" text="Dohvat" />
+                  <MenuItem mnemonicParsing="false" onAction="#prikaziEkranZaNovuZupaniju" text="Dodaj" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Države">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#prikaziEkranDrzave" text="Dohvat" />
+                  <MenuItem mnemonicParsing="false" onAction="#prikaziEkranZaNovuDrzavu" text="Dodaj" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Mjerne Postaje">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#prikaziEkranMjernePostaje" text="Dohvat" />
+                  <MenuItem mnemonicParsing="false" onAction="#prikaziEkranZaNovuMjernuPostaju" text="Dodaj" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Senzori">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#prikaziEkranSenzori" text="Dohvat" />
+                  <MenuItem mnemonicParsing="false" text="Dodaj" />
             </items>
           </Menu>
         </menus>

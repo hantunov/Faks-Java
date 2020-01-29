@@ -1,6 +1,15 @@
 1
 Grad Zagreb
+1
 2
 Sredisnja Slovenija
+2
 3
 Freistaat Bayern
+3
+4
+Bjelovarsko-Bilogorska
+1
+5
+Šibensko-Kninska
+1
