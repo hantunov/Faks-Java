@@ -33,12 +33,17 @@ public class GlavnaDatoteke {
 	
 	public static void main(String[] args) {
 		
-		Map<Integer, Drzava> drzave = dohvatiDrzave(ucitajDatoteku("dat\\drzave.txt"));
+		/*Map<Integer, Drzava> drzave = dohvatiDrzave(ucitajDatoteku("dat\\drzave.txt"));
 		Map<Integer, Zupanija> zupanije = dohvatiZupanije(ucitajDatoteku("dat\\zupanije.txt"), drzave);
 		Map<Integer, Mjesto> mjesta = dohvatiMjesta(ucitajDatoteku("dat\\mjesta.txt"), zupanije);
 		Map<Integer, GeografskaTocka> geografskeTocke = dohvatiGeografskeTocke(ucitajDatoteku("dat\\geografsketocke.txt"));
 		Map<Integer, Senzor> senzori = dohvatiSenzore(ucitajDatoteku("dat\\senzori.txt"));
-		Map<Integer, MjernaPostaja> postaje = dohvatiPostaje(ucitajDatoteku("dat\\mjernepostaje.txt"), mjesta, geografskeTocke, senzori);		
+		Map<Integer, MjernaPostaja> postaje = dohvatiPostaje(ucitajDatoteku("dat\\mjernepostaje.txt"), mjesta, geografskeTocke, senzori);
+		*/
+		
+		Map<Integer, MjernaPostaja> postaje = dohvatiPostaje(ucitajDatoteku("dat\\mjernepostaje.txt"), dohvatiMjesta(ucitajDatoteku("dat\\mjesta.txt"),
+                 							  dohvatiZupanije(ucitajDatoteku("dat\\zupanije.txt"), dohvatiDrzave(ucitajDatoteku("dat\\drzave.txt")))),
+                 							  dohvatiGeografskeTocke(ucitajDatoteku("dat\\geografsketocke.txt")), dohvatiSenzore(ucitajDatoteku("dat\\senzori.txt")));
 		
 		ispisMjernihPostaja(postaje);
 		ispisListeZupanija(postaje);
@@ -324,7 +329,8 @@ public class GlavnaDatoteke {
 		List<Zupanija> listZupanija = new ArrayList<>(setZupanija);
 		
 		Collections.sort(listZupanija, new ZupanijaSorter());
-
+		
+		System.out.println();
 		System.out.println("Lista zupanija: ");
 		for (Zupanija z : listZupanija) {
 			System.out.println(z.getNaziv());
