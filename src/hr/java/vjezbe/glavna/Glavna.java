@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import hr.java.vjezbe.entitet.Drzava;
 import hr.java.vjezbe.entitet.GeografskaTocka;
 import hr.java.vjezbe.entitet.MjernaPostaja;
+import hr.java.vjezbe.entitet.MjernePostaje;
 import hr.java.vjezbe.entitet.Mjesto;
 import hr.java.vjezbe.entitet.RadSenzora;
 import hr.java.vjezbe.entitet.RadioSondaznaMjernaPostaja;
@@ -36,14 +37,13 @@ public class Glavna {
 
 	public static final int BROJ_POSTAJA = 3;
 	public static final int BROJ_SENZORA = 3;
-	public static List<MjernaPostaja> mjernePostaje = new ArrayList<>();
+	public static MjernePostaje<MjernaPostaja> mjernePostaje = new MjernePostaje<MjernaPostaja>();
+	//public static List<MjernaPostaja> mjernePostaje = new ArrayList<>();
 	public static final Logger logger = LoggerFactory.getLogger(Glavna.class);
 
 	public static void main(String[] args) throws InterruptedException {
 
-		Scanner scan = new Scanner(System.in);
-
-		
+		Scanner scan = new Scanner(System.in);		
 
 		for (int i = 0; i < BROJ_POSTAJA; i++) {
 
@@ -53,6 +53,11 @@ public class Glavna {
 			Glavna.logger.info("Unos " + getBrojPostaje(i+1) + " mjerne postaje.");
 		}
 		
+		
+		mjernePostaje.getMjernePostaje().stream().filter(postaja -> !(postaja instanceof RadioSondaznaMjernaPostaja)).forEach(postaja -> ispisMjernePostaje(postaja));
+		mjernePostaje.getMjernePostaje().stream().filter(postaja -> postaja instanceof RadioSondaznaMjernaPostaja).forEach(postaja -> ispisRadioSondazneMjernePostaje((RadioSondaznaMjernaPostaja) postaja));
+				
+		/*
 		for(int i=0; i<BROJ_POSTAJA; i++) {
 			if(mjernePostaje.get(i) instanceof RadioSondaznaMjernaPostaja) {
 				ispisRadioSondazneMjernePostaje((RadioSondaznaMjernaPostaja) mjernePostaje.get(i));
@@ -61,7 +66,7 @@ public class Glavna {
 				ispisMjernePostaje(mjernePostaje.get(i));
 			}			
 		}
-		
+		*/
 		
 		//Upisivanje svih zabiljezenih zupanija u posebni set, pretvaranje seta u listu, sortiranje liste s Comparator klasom i ispis
 		Set<Zupanija> setZupanija = new HashSet<>();
@@ -80,7 +85,7 @@ public class Glavna {
 		//Kreiranje nove mape unesenih senzora gdje je key Mjesto, a value je ArrayList senzora. Foreach petlja da se prodje po svim mjernim postajama.
 		
 		Map<Mjesto, List<Senzor>> mapaUnesenihSenzora = new HashMap<>();
-		for (MjernaPostaja p : mjernePostaje) {
+		for (MjernaPostaja p : mjernePostaje.getMjernePostaje()) {
 			mapaUnesenihSenzora.put(p.getMjesto(), p.getSenzori());
 		}
 		
@@ -277,7 +282,7 @@ public class Glavna {
 		System.out.println("Unesite naziv mjesta:");
 		String nazivMjesta = scan.nextLine();
 		
-		Optional<MjernaPostaja> mjernaPostaja = mjernePostaje.stream().filter(p -> p.getMjesto().getNaziv().equals(nazivMjesta)).findFirst();
+		Optional<MjernaPostaja> mjernaPostaja = mjernePostaje.getMjernePostaje().stream().filter(p -> p.getMjesto().getNaziv().equals(nazivMjesta)).findFirst();
 		if (mjernaPostaja.isPresent()) return mjernaPostaja.get().getMjesto();
 		
 		Mjesto mjesto = new Mjesto(nazivMjesta, unosZupanije(scan));
@@ -334,7 +339,7 @@ public class Glavna {
 		System.out.println("Unesite naziv zupanije:");
 		String nazivZupanije = scan.nextLine();
 		
-		Optional<MjernaPostaja> mjernaPostaja = mjernePostaje.stream().filter(p -> p.getMjesto().getZupanija().getNaziv().equals(nazivZupanije)).findFirst();
+		Optional<MjernaPostaja> mjernaPostaja = mjernePostaje.getMjernePostaje().stream().filter(p -> p.getMjesto().getZupanija().getNaziv().equals(nazivZupanije)).findFirst();
 		if (mjernaPostaja.isPresent()) return mjernaPostaja.get().getMjesto().getZupanija();
 		
 		Zupanija zupanija = new Zupanija(nazivZupanije, unosDrzave(scan));
@@ -356,7 +361,7 @@ public class Glavna {
 		BigDecimal povrsina = Unos.unesiBigDecimal(scan);
 		scan.nextLine();
 		
-		Optional<MjernaPostaja> mjernaPostaja = mjernePostaje.stream().filter(p -> p.getMjesto().getZupanija().getDrzava().getNaziv().equals(nazivDrzave)).findFirst();
+		Optional<MjernaPostaja> mjernaPostaja = mjernePostaje.getMjernePostaje().stream().filter(p -> p.getMjesto().getZupanija().getDrzava().getNaziv().equals(nazivDrzave)).findFirst();
 		if (mjernaPostaja.isPresent()) return mjernaPostaja.get().getMjesto().getZupanija().getDrzava();
 		
 		Drzava drzava = new Drzava(nazivDrzave, povrsina);
@@ -399,9 +404,13 @@ public class Glavna {
 		System.out.println("\nTocne koordinate postaje su x:" + mjernaPostaja.getGeografskaTocka().getX()
 			+ " y:" + mjernaPostaja.getGeografskaTocka().getY());
 		System.out.println("Vrijednosti senzora postaje su: ");
+		mjernaPostaja.dohvatiSenzore().stream().forEach(senzor -> System.out.println(senzor.dohvatiVrijednost()));
+		
+		/*
 		for(int i=0; i<BROJ_SENZORA; i++) {
 			System.out.println(mjernaPostaja.dohvatiSenzore().get(i).dohvatiVrijednost());
 		}
+		*/
 	}
 	
 	/**
@@ -422,9 +431,13 @@ public class Glavna {
 		System.out.println("\nTocne koordinate postaje su x:" + mjernaPostaja.getGeografskaTocka().getX()
 			+ " y:" + mjernaPostaja.getGeografskaTocka().getY());
 		System.out.println("Vrijednosti senzora postaje su: ");
+		mjernaPostaja.dohvatiSenzore().stream().forEach(senzor -> System.out.println(senzor.dohvatiVrijednost()));
+		
+		/*
 		for(int i=0; i<BROJ_SENZORA; i++) {
 			System.out.println(mjernaPostaja.dohvatiSenzore().get(i).dohvatiVrijednost());
 		}
+		*/
 	}
 	
 	/**
