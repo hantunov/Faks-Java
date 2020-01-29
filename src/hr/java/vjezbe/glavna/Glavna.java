@@ -26,6 +26,7 @@ import hr.java.vjezbe.entitet.Senzor;
 import hr.java.vjezbe.entitet.SenzorBrzineVjetra;
 import hr.java.vjezbe.entitet.SenzorTemperature;
 import hr.java.vjezbe.entitet.SenzorVlage;
+import hr.java.vjezbe.entitet.Senzori;
 import hr.java.vjezbe.entitet.VrstaMjesta;
 import hr.java.vjezbe.entitet.Zupanija;
 import hr.java.vjezbe.iznimke.NiskaTemperaturaException;
@@ -38,7 +39,6 @@ public class Glavna {
 	public static final int BROJ_POSTAJA = 3;
 	public static final int BROJ_SENZORA = 3;
 	public static MjernePostaje<MjernaPostaja> mjernePostaje = new MjernePostaje<MjernaPostaja>();
-	//public static List<MjernaPostaja> mjernePostaje = new ArrayList<>();
 	public static final Logger logger = LoggerFactory.getLogger(Glavna.class);
 
 	public static void main(String[] args) throws InterruptedException {
@@ -86,7 +86,7 @@ public class Glavna {
 		
 		Map<Mjesto, List<Senzor>> mapaUnesenihSenzora = new HashMap<>();
 		for (MjernaPostaja p : mjernePostaje.getMjernePostaje()) {
-			mapaUnesenihSenzora.put(p.getMjesto(), p.getSenzori());
+			mapaUnesenihSenzora.put(p.getMjesto(), p.getSenzori().getSenzori());
 		}
 		
 		//Ispis mape upisanih senzora
@@ -171,18 +171,18 @@ public class Glavna {
 	 * @return polje objekata tipa Senzor[] popunjeno sa tri senzora tipa SenzorTemperature, SenzorVlage i SenzorBrzineVjetra.
 	 */
 	
-	public static List<Senzor> unosSenzora(Scanner scan) {
+	public static Senzori<Senzor> unosSenzora(Scanner scan) {
 
 		Glavna.logger.info("Unos senzora.");
 
 		SenzorTemperature senzorTemperature = unosSenzoraTemperature(scan);
 		SenzorVlage senzorVlage = unosSenzoraVlage(scan);
 		SenzorBrzineVjetra senzorBrzineVjetra = unosSenzoraBrzineVjetra(scan);
-
-		List<Senzor> senzori = new ArrayList<>();
-		senzori.add(senzorTemperature);
-		senzori.add(senzorVlage);
-		senzori.add(senzorBrzineVjetra);
+		
+		Senzori<Senzor> senzori = new Senzori<Senzor>();		
+		senzori.getSenzori().add(senzorTemperature);
+		senzori.getSenzori().add(senzorVlage);
+		senzori.getSenzori().add(senzorBrzineVjetra);
 
 		return senzori;
 	}

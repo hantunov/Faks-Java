@@ -32,6 +32,5 @@ public class MjernePostaje<T extends MjernaPostaja> {
 	public List<T> getMjernePostaje() {
 		return mjernePostaje;
 	}
-	
-	
+
 }

@@ -5,16 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Sadrzi dvije clanske varijable - String naziv i BigDecimal povrsina, obje imaju public getter i setter metode.
+ * Sadrzi dvije clanske varijable - String naziv i BigDecimal povrsina, obje
+ * imaju public getter i setter metode.
  * 
- * Konstruktor prima String naziv i BigDecimal povrsina. 
+ * Konstruktor prima String naziv i BigDecimal povrsina.
  * 
  * @author Hrvoje
  *
  */
 
-public class Drzava {
-	
+public class Drzava extends BazniEntitet {
+
 	private String naziv;
 	private BigDecimal povrsina;
 	private List<Zupanija> zupanije;
@@ -23,6 +24,13 @@ public class Drzava {
 		this.naziv = naziv;
 		this.povrsina = povrsina;
 		this.zupanije = new ArrayList<>();
+	}
+	
+	public Drzava(int id, String naziv, BigDecimal povrsina) {
+		this.naziv = naziv;
+		this.povrsina = povrsina;
+		this.zupanije = new ArrayList<>();
+		setId(id);
 	}
 
 	public String getNaziv() {
@@ -40,9 +48,9 @@ public class Drzava {
 	public void setPovrsina(BigDecimal povrsina) {
 		this.povrsina = povrsina;
 	}
-	
+
 	public List<Zupanija> getZupanije() {
 		return zupanije;
 	}
-	
+
 }

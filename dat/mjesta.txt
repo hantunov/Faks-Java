@@ -1,0 +1,9 @@
+1
+Zagreb
+GRAD
+2
+Ljubljana
+GRAD
+3
+Munich
+GRAD

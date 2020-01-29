@@ -4,16 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  Sadrzi dvije clanske varijable - String naziv i Zupanija zupanija, obje imaju public get i set metode.
+ * Sadrzi dvije clanske varijable - String naziv i Zupanija zupanija, obje imaju
+ * public get i set metode.
  * 
- * Konstruktor prima String naziv i Zupanija zupanija.  
+ * Konstruktor prima String naziv i Zupanija zupanija.
  * 
  * @author Hrvoje
  *
  *
  */
 
-public class Mjesto {
+public class Mjesto extends BazniEntitet {
 
 	private String naziv;
 	private Zupanija zupanija;
@@ -24,6 +25,14 @@ public class Mjesto {
 		this.naziv = naziv;
 		this.zupanija = zupanija;
 		this.mjernePostaje = new ArrayList<>();
+	}
+	
+	public Mjesto(int id, String naziv, Zupanija zupanija, VrstaMjesta vrstaMjesta) {
+		this.naziv = naziv;
+		this.zupanija = zupanija;
+		this.mjernePostaje = new ArrayList<>();
+		setId(id);
+		this.vrstaMjesta = vrstaMjesta;
 	}
 
 	public String getNaziv() {
