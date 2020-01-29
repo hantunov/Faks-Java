@@ -1,7 +1,5 @@
 package hr.java.vjezbe.entitet;
 
-import java.util.List;
-
 /**
  * Sadrzi cetiri clanske varijable - String naziv, Mjesto mjesto,
  * GeografskaTocka geografskaTocka i Senzor[] senzori. Sve imaju public get i
@@ -21,20 +19,20 @@ public class MjernaPostaja extends BazniEntitet {
 	private String naziv;
 	private Mjesto mjesto;
 	private GeografskaTocka geografskaTocka;
-	private Senzori<Senzor> senzori;
+	//private Senzori<Senzor> senzori;
 
-	public MjernaPostaja(String naziv, Mjesto mjesto, GeografskaTocka geografskaTocka, Senzori<Senzor> senzori) {
+	public MjernaPostaja(String naziv, Mjesto mjesto, GeografskaTocka geografskaTocka) {
 		this.naziv = naziv;
 		this.mjesto = mjesto;
 		this.geografskaTocka = geografskaTocka;
-		this.senzori = senzori;
+		//this.senzori = senzori;
 	}
 	
-	public MjernaPostaja(int id, String naziv, Mjesto mjesto, GeografskaTocka geografskaTocka, Senzori<Senzor> senzori) {
+	public MjernaPostaja(int id, String naziv, Mjesto mjesto, GeografskaTocka geografskaTocka) {
 		this.naziv = naziv;
 		this.mjesto = mjesto;
 		this.geografskaTocka = geografskaTocka;
-		this.senzori = senzori;
+		//this.senzori = senzori;
 		setId(id);
 	}
 
@@ -45,9 +43,13 @@ public class MjernaPostaja extends BazniEntitet {
 	 * @return sortirano polje senzora
 	 */
 
-	public List<Senzor> dohvatiSenzore() {
+	/*public List<Senzor> dohvatiSenzore() {
 		//Collections.sort(senzori.getSenzori(), (p1, p2) -> p1.getMjernaJedinica().compareTo(p2.getMjernaJedinica()));
 		return senzori.getSortedList();
+	}*/
+	
+	public String toString() {
+		return this.naziv;
 	}
 
 	public String getNaziv() {
@@ -74,12 +76,12 @@ public class MjernaPostaja extends BazniEntitet {
 		this.geografskaTocka = geografskaTocka;
 	}
 
-	public Senzori<Senzor> getSenzori() {
+	/*public Senzori<Senzor> getSenzori() {
 		return senzori;
 	}
 
 	public void setSenzori(Senzori<Senzor> senzori) {
 		this.senzori = senzori;
-	}
+	}*/
 
 }

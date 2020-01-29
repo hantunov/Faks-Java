@@ -1,9 +1,12 @@
 package hr.java.vjezbe.javafx;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import hr.java.vjezbe.baza.podataka.BazaPodataka;
 import hr.java.vjezbe.entitet.MjernaPostaja;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
@@ -50,7 +53,13 @@ public class PostajeController {
 					}
 				});
 		
-		listaPostaja = Main.dohvatiPostaje();
+		try {
+			listaPostaja = BazaPodataka.dohvatiMjernePostaje();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		postajeTableView.setItems(Main.observableListaPostaja);
 	}

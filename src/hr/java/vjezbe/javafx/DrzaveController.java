@@ -1,9 +1,12 @@
 package hr.java.vjezbe.javafx;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import hr.java.vjezbe.baza.podataka.BazaPodataka;
 import hr.java.vjezbe.entitet.Drzava;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
@@ -41,7 +44,13 @@ public class DrzaveController {
 					}
 				});
 		
-		listaDrzava = Main.dohvatiDrzave();
+		try {
+			listaDrzava = BazaPodataka.dohvatiDrzave();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		drzaveTableView.setItems(Main.observableListaDrzava);
 	}

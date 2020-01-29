@@ -1,9 +1,12 @@
 package hr.java.vjezbe.javafx;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import hr.java.vjezbe.baza.podataka.BazaPodataka;
 import hr.java.vjezbe.entitet.Senzor;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
@@ -11,14 +14,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.util.Callback;
 
 public class SenzoriController {
 	
-	private List<Senzor> listaSenzora;
+	private static List<Senzor> listaSenzora;
 	
 	@FXML
 	private TextField senzoriFilterTextField;
@@ -47,7 +50,13 @@ public class SenzoriController {
 					}
 				});
 		
-		listaSenzora = Main.dohvatiSenzore();
+		try {
+			listaSenzora = BazaPodataka.dohvatiSenzore();
+		} catch (SQLException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		senzoriTableView.setItems(Main.observableListaSenzora);
 	}
 
 	public void prikaziSenzore() {
@@ -60,6 +69,13 @@ public class SenzoriController {
 		}
 		ObservableList<Senzor> listaSenzora = FXCollections.observableArrayList(filtriraniSenzori);
 		senzoriTableView.setItems(listaSenzora);
+	}
+	
+	public static void dodajNoviSenzor(int key, Senzor noviSenzor) {
+		
+		listaSenzora.add(noviSenzor);
+		Main.observableListaSenzora = FXCollections.observableArrayList(listaSenzora);
+		Main.prikaziEkranSenzori();		
 	}
 	
 }

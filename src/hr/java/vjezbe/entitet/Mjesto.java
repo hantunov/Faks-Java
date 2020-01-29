@@ -34,7 +34,11 @@ public class Mjesto extends BazniEntitet {
 		setId(id);
 		this.vrstaMjesta = vrstaMjesta;
 	}
-
+	
+	public String toString() {
+		return this.naziv;
+	}
+	
 	public String getNaziv() {
 		return naziv;
 	}

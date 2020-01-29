@@ -1,10 +1,12 @@
 package hr.java.vjezbe.javafx;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import hr.java.vjezbe.baza.podataka.BazaPodataka;
 import hr.java.vjezbe.entitet.Drzava;
 import hr.java.vjezbe.entitet.MjernaPostaja;
 import hr.java.vjezbe.entitet.Mjesto;
@@ -63,20 +65,25 @@ public class PocetniEkranController {
 					}
 				});
 		
-		listaMjesta = Main.dohvatiMjesta();
-		Main.observableListaMjesta = FXCollections.observableArrayList(listaMjesta);
+		try {
+			listaMjesta = BazaPodataka.dohvatiMjesta();
+			Main.observableListaMjesta = FXCollections.observableArrayList(listaMjesta);
 		
-		listaZupanija = Main.dohvatiZupanije();
-		Main.observableListaZupanija = FXCollections.observableArrayList(listaZupanija);
+			listaZupanija = BazaPodataka.dohvatiZupanije();
+			Main.observableListaZupanija = FXCollections.observableArrayList(listaZupanija);
 		
-		listaPostaja = Main.dohvatiPostaje();
-		Main.observableListaPostaja = FXCollections.observableArrayList(listaPostaja);
+			listaPostaja = BazaPodataka.dohvatiMjernePostaje();
+			Main.observableListaPostaja = FXCollections.observableArrayList(listaPostaja);
 		
-		listaDrzava = Main.dohvatiDrzave();
-		Main.observableListaDrzava = FXCollections.observableArrayList(listaDrzava);
-		
-		listaSenzora = Main.dohvatiSenzore();
-		Main.observableListaSenzora = FXCollections.observableArrayList(listaSenzora);		
+			listaDrzava = BazaPodataka.dohvatiDrzave();
+			Main.observableListaDrzava = FXCollections.observableArrayList(listaDrzava);
+				
+			listaSenzora = BazaPodataka.dohvatiSenzore();
+			Main.observableListaSenzora = FXCollections.observableArrayList(listaSenzora);
+		} catch (SQLException | IOException e) {
+			e.printStackTrace();
+		}
+				
 		
 		//mjestaTableView.setItems(Main.observableListaMjesta);
 		
@@ -182,6 +189,19 @@ public class PocetniEkranController {
 		try {
 			BorderPane novaMjernaPostajaPane = FXMLLoader.load(Main.class.getResource("DodajMjernuPostajuEkran.fxml"));
 			Scene scene = new Scene(novaMjernaPostajaPane, 400, 400);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void prikaziEkranZaNoviSenzor() {
+		try {
+			BorderPane noviSenzorPane = FXMLLoader.load(Main.class.getResource("DodajSenzorEkran.fxml"));
+			Scene scene = new Scene(noviSenzorPane, 400, 400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			Stage stage = new Stage();
 			stage.setScene(scene);

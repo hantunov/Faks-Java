@@ -44,7 +44,7 @@
           <Menu mnemonicParsing="false" text="Senzori">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#prikaziEkranSenzori" text="Dohvat" />
-                  <MenuItem mnemonicParsing="false" text="Dodaj" />
+                  <MenuItem mnemonicParsing="false" onAction="#prikaziEkranZaNoviSenzor" text="Dodaj" />
             </items>
           </Menu>
         </menus>

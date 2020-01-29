@@ -14,22 +14,26 @@ import java.math.BigDecimal;
  *
  */
 
-public abstract class Senzor extends BazniEntitet {
+public class Senzor extends BazniEntitet {
 
 	private String mjernaJedinica;
 	private byte preciznostSenzora;
 	private BigDecimal vrijednostMjerenja;
 	private RadSenzora radSenzora;
+	private MjernaPostaja mjernaPostaja;
 
 	public Senzor(String mjernaJedinica, byte preciznostSenzora) {
 		this.mjernaJedinica = mjernaJedinica;
 		this.preciznostSenzora = preciznostSenzora;
 	}
 	
-	public Senzor(int id, String mjernaJedinica, byte preciznostSenzora) {
+	public Senzor(int id, String mjernaJedinica, byte preciznostSenzora, BigDecimal vrijednostMjerenja, RadSenzora radSenzora, MjernaPostaja mjernaPostaja) {
+		setId(id);
 		this.mjernaJedinica = mjernaJedinica;
 		this.preciznostSenzora = preciznostSenzora;
-		setId(id);
+		this.vrijednostMjerenja = vrijednostMjerenja;
+		this.radSenzora = radSenzora;
+		this.setMjernaPostaja(mjernaPostaja);		
 	}
 
 	/**
@@ -39,7 +43,7 @@ public abstract class Senzor extends BazniEntitet {
 	 * @return String
 	 */
 
-	public abstract String dohvatiVrijednost();
+	//public abstract String dohvatiVrijednost();
 
 	public String getMjernaJedinica() {
 		return mjernaJedinica;
@@ -71,5 +75,13 @@ public abstract class Senzor extends BazniEntitet {
 
 	public void setRadSenzora(RadSenzora radSenzora) {
 		this.radSenzora = radSenzora;
+	}
+
+	public MjernaPostaja getMjernaPostaja() {
+		return mjernaPostaja;
+	}
+
+	public void setMjernaPostaja(MjernaPostaja mjernaPostaja) {
+		this.mjernaPostaja = mjernaPostaja;
 	}
 }

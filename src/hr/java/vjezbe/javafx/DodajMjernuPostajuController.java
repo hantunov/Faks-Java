@@ -8,8 +8,6 @@ import java.math.BigDecimal;
 import hr.java.vjezbe.entitet.GeografskaTocka;
 import hr.java.vjezbe.entitet.MjernaPostaja;
 import hr.java.vjezbe.entitet.Mjesto;
-import hr.java.vjezbe.entitet.Senzor;
-import hr.java.vjezbe.entitet.Senzori;
 import hr.java.vjezbe.glavna.Glavna;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -57,12 +55,12 @@ public class DodajMjernuPostajuController {
 			writer.write(mjesto.getId() + "\n");
 			writer.write(X.toString() + "\n");
 			writer.write(Y.toString() + "\n");
-			Senzori<Senzor> senzori = new Senzori<>();
-			for(int j = 1; j<=Main.senzori.size(); j++) {
+			/*Senzori<Senzor> senzori = new Senzori<>();
+			  for(int j = 1; j<=Main.senzori.size(); j++) {
 				senzori.getSenzori().add(Main.senzori.get(j));														
-			}
+			}*/
 			GeografskaTocka g = new GeografskaTocka(X, Y);
-			MjernaPostaja mjernaPostaja = new MjernaPostaja(noviId, naziv, mjesto, g, senzori);			
+			MjernaPostaja mjernaPostaja = new MjernaPostaja(noviId, naziv, mjesto, g);			
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Uspješno spremanje mjesta!");
 			alert.setHeaderText("Uspješno spremanje mjesta!");
