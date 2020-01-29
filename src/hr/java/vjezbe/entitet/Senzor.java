@@ -2,6 +2,15 @@ package hr.java.vjezbe.entitet;
 
 import java.math.BigDecimal;
 
+/**
+ * Apstraktna klasa sa tri clanske varijable - String mjernaJedinica, byte preciznostSenzora i BigDecimal vrijednostMjerenja. Sve tri imaju javne set i get metode.
+ * 
+ * Apstraktna metoda dohvatiVrijednost() koju je potrebno implementirati u klasama koje nasljedjuju ovu.
+ * 
+ * @author Hrvoje
+ *
+ */
+
 public abstract class Senzor {
 	
 	private String mjernaJedinica;
@@ -12,6 +21,12 @@ public abstract class Senzor {
 		this.mjernaJedinica = mjernaJedinica;
 		this.preciznostSenzora = preciznostSenzora;
 	}
+	
+	/**
+	 * Apstraktna klasa koju je potrebno implementirati u klasama koje nasljedjuju ovu.
+	 * 
+	 * @return String
+	 */
 	
 	public abstract String dohvatiVrijednost();
 

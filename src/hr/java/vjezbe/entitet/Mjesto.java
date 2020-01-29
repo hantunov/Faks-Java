@@ -1,5 +1,15 @@
 package hr.java.vjezbe.entitet;
 
+/**
+ *  Sadrzi dvije clanske varijable - String naziv i Zupanija zupanija, obje imaju public get i set metode.
+ * 
+ * Konstruktor prima String naziv i Zupanija zupanija.  
+ * 
+ * @author Hrvoje
+ *
+ *
+ */
+
 public class Mjesto {
 
 	private String naziv;
