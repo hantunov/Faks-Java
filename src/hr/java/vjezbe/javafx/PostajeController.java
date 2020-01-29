@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import hr.java.vjezbe.baza.podataka.BazaPodataka;
 import hr.java.vjezbe.entitet.MjernaPostaja;
+import hr.java.vjezbe.glavna.Glavna;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -55,9 +56,7 @@ public class PostajeController {
 		
 		try {
 			listaPostaja = BazaPodataka.dohvatiMjernePostaje();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 		}
 		
@@ -79,6 +78,12 @@ public class PostajeController {
 	public static void dodajNovuMjernuPostaju(int noviId, MjernaPostaja novaMjernaPostaja) {
 
 		listaPostaja.add(novaMjernaPostaja);
+		try {
+			BazaPodataka.spremiMjernuPostaju(novaMjernaPostaja);
+		} catch (SQLException | IOException e) {
+			Glavna.logger.error("Neuspješan upis mjerne postaje u bazu!");
+			e.printStackTrace();
+		}
 		Main.observableListaPostaja = FXCollections.observableArrayList(listaPostaja);
 		Main.prikaziEkranMjernePostaje();		
 		

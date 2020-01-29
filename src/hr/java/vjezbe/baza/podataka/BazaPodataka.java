@@ -26,7 +26,7 @@ public class BazaPodataka {
 	
 	private static final String DATABASE_FILE = "bazaPodataka.properties";
 	
-	private static Connection spajanjeNaBazuPodataka() throws SQLException, IOException{
+	public static Connection spajanjeNaBazuPodataka() throws SQLException, IOException{
 		
 		Properties svojstva = new Properties();
 		
@@ -40,30 +40,9 @@ public class BazaPodataka {
 		return veza;
 	}
 	
-	private static void zatvaranjeVezeNaBazuPodataka(Connection veza) throws SQLException, IOException{
+	public static void zatvaranjeVezeNaBazuPodataka(Connection veza) throws SQLException, IOException{
 		
 		veza.close();		
-	}
-	
-	public static void spremiDrzavu(Drzava drzava) throws SQLException, IOException {
-		Connection veza = spajanjeNaBazuPodataka();
-		veza.setAutoCommit(false);
-	
-		try {
-			PreparedStatement insertDrzava = veza.prepareStatement("INSERT INTO POSTAJE.DRZAVA	(NAZIV, POVRSINA) VALUES (?, ?);");
-			insertDrzava.setString(1, drzava.getNaziv());
-			insertDrzava.setDouble(2, drzava.getPovrsina().doubleValue());
-			insertDrzava.executeUpdate();
-			
-			veza.commit();
-			veza.setAutoCommit(true);
-		}
-		catch(Throwable ex) {
-			veza.rollback();
-			throw ex;
-		}
-		
-		zatvaranjeVezeNaBazuPodataka(veza);
 	}
 	
 	public static List<Drzava> dohvatiDrzave() throws SQLException, IOException {
@@ -87,15 +66,15 @@ public class BazaPodataka {
 		return listaDrzava;
 	}
 	
-	public static void spremiZupaniju(Zupanija zupanija) throws SQLException, IOException {
+	public static void spremiDrzavu(Drzava drzava) throws SQLException, IOException {
 		Connection veza = spajanjeNaBazuPodataka();
 		veza.setAutoCommit(false);
 	
 		try {
-			PreparedStatement insertZupanija = veza.prepareStatement("INSERT INTO POSTAJE.ZUPANIJA	(NAZIV, DRZAVA_ID) VALUES (?, ?);");
-			insertZupanija.setString(1, zupanija.getNaziv());
-			insertZupanija.setDouble(2, zupanija.getDrzava().getId());
-			insertZupanija.executeUpdate();
+			PreparedStatement insertDrzava = veza.prepareStatement("INSERT INTO POSTAJE.DRZAVA	(NAZIV, POVRSINA) VALUES (?, ?);");
+			insertDrzava.setString(1, drzava.getNaziv());
+			insertDrzava.setDouble(2, drzava.getPovrsina().doubleValue());
+			insertDrzava.executeUpdate();
 			
 			veza.commit();
 			veza.setAutoCommit(true);
@@ -103,6 +82,28 @@ public class BazaPodataka {
 		catch(Throwable ex) {
 			veza.rollback();
 			throw ex;
+		}
+		
+		zatvaranjeVezeNaBazuPodataka(veza);
+	}
+	
+	public static void izmijeniDrzavu(Drzava drzava) throws SQLException, IOException{
+		Connection veza = spajanjeNaBazuPodataka();
+		veza.setAutoCommit(false);
+			
+		try {
+			PreparedStatement insertDrzava = veza.prepareStatement("UPDATE POSTAJE.DRZAVA SET NAZIV = '?', POVRSINA = ? WHERE ID = ?;");
+			System.out.println(drzava.getNaziv());
+			System.out.println(drzava.getPovrsina().doubleValue());
+			System.out.println(drzava.getId());
+			insertDrzava.setString(1, drzava.getNaziv());			
+			insertDrzava.setDouble(2, drzava.getPovrsina().doubleValue());			
+			insertDrzava.setInt(3, drzava.getId());			
+			insertDrzava.executeUpdate();
+		}
+		catch(Throwable ex){
+			veza.rollback();
+			throw ex;			
 		}
 		
 		zatvaranjeVezeNaBazuPodataka(veza);
@@ -129,16 +130,15 @@ public class BazaPodataka {
 		return listaZupanija;
 	}
 	
-	public static void spremiMjesto(Mjesto mjesto) throws SQLException, IOException {
+	public static void spremiZupaniju(Zupanija zupanija) throws SQLException, IOException {
 		Connection veza = spajanjeNaBazuPodataka();
 		veza.setAutoCommit(false);
 	
 		try {
-			PreparedStatement insertMjesto = veza.prepareStatement("INSERT INTO POSTAJE.MJESTO	(NAZIV, VRSTA, ZUPANIJA_ID) VALUES (?, ?, ?);");
-			insertMjesto.setString(1, mjesto.getNaziv());
-			insertMjesto.setString(2, mjesto.getVrstaMjesta().toString());
-			insertMjesto.setDouble(3, mjesto.getZupanija().getId());
-			insertMjesto.executeUpdate();
+			PreparedStatement insertZupanija = veza.prepareStatement("INSERT INTO POSTAJE.ZUPANIJA	(NAZIV, DRZAVA_ID) VALUES (?, ?);");
+			insertZupanija.setString(1, zupanija.getNaziv());
+			insertZupanija.setDouble(2, zupanija.getDrzava().getId());
+			insertZupanija.executeUpdate();
 			
 			veza.commit();
 			veza.setAutoCommit(true);
@@ -173,17 +173,16 @@ public class BazaPodataka {
 		return listaMjesta;
 	}
 	
-	public static void spremiMjernuPostaju(MjernaPostaja mjernaPostaja) throws SQLException, IOException {
+	public static void spremiMjesto(Mjesto mjesto) throws SQLException, IOException {
 		Connection veza = spajanjeNaBazuPodataka();
 		veza.setAutoCommit(false);
 	
 		try {
-			PreparedStatement insertMjernaPostaja = veza.prepareStatement("INSERT INTO POSTAJE.MJERNA_POSTAJA	(NAZIV, MJESTO_ID, LAT, LNG) VALUES (?, ?, ?, ?);");
-			insertMjernaPostaja.setString(1, mjernaPostaja.getNaziv());
-			insertMjernaPostaja.setDouble(2, mjernaPostaja.getMjesto().getId());
-			insertMjernaPostaja.setDouble(3, mjernaPostaja.getGeografskaTocka().getX().doubleValue());
-			insertMjernaPostaja.setDouble(3, mjernaPostaja.getGeografskaTocka().getY().doubleValue());
-			insertMjernaPostaja.executeUpdate();
+			PreparedStatement insertMjesto = veza.prepareStatement("INSERT INTO POSTAJE.MJESTO	(NAZIV, VRSTA, ZUPANIJA_ID) VALUES (?, ?, ?);");
+			insertMjesto.setString(1, mjesto.getNaziv());
+			insertMjesto.setString(2, mjesto.getVrstaMjesta().toString());
+			insertMjesto.setDouble(3, mjesto.getZupanija().getId());
+			insertMjesto.executeUpdate();
 			
 			veza.commit();
 			veza.setAutoCommit(true);
@@ -220,29 +219,29 @@ public class BazaPodataka {
 		return listaMjernihPostaja;
 	}
 	
-	public static void spremiSenzor(Senzor senzor) throws SQLException, IOException {
+	public static void spremiMjernuPostaju(MjernaPostaja mjernaPostaja) throws SQLException, IOException {
 		Connection veza = spajanjeNaBazuPodataka();
 		veza.setAutoCommit(false);
-		
+	
 		try {
-			PreparedStatement insertSenzor = veza.prepareStatement("INSERT INTO POSTAJE.SENZOR (MJERNA_JEDINICA, PRECIZNOST, VRIJEDNOST, RAD_SENZORA, MJERNA_POSTAJA_ID) VALUES (?, ?, ?, ?, ?);");
-			insertSenzor.setString(1, senzor.getMjernaJedinica());
-			Integer preciznostSenzora = (int) senzor.getPreciznostSenzora();
-			insertSenzor.setDouble(2, preciznostSenzora.doubleValue());
-			insertSenzor.setDouble(3, senzor.getVrijednostMjerenja().doubleValue());
-			insertSenzor.setString(4, senzor.getRadSenzora().toString());
-			insertSenzor.setInt(5, senzor.getMjernaPostaja().getId());
-			insertSenzor.executeUpdate();
+			PreparedStatement insertMjernaPostaja = veza.prepareStatement("INSERT INTO POSTAJE.MJERNA_POSTAJA	(NAZIV, MJESTO_ID, LAT, LNG) VALUES (?, ?, ?, ?);");
+			insertMjernaPostaja.setString(1, mjernaPostaja.getNaziv());
+			insertMjernaPostaja.setDouble(2, mjernaPostaja.getMjesto().getId());
+			insertMjernaPostaja.setDouble(3, mjernaPostaja.getGeografskaTocka().getX().doubleValue());
+			insertMjernaPostaja.setDouble(3, mjernaPostaja.getGeografskaTocka().getY().doubleValue());
+			insertMjernaPostaja.executeUpdate();
+			
 			veza.commit();
 			veza.setAutoCommit(true);
-
-		} catch (Throwable ex) {
+		}
+		catch(Throwable ex) {
 			veza.rollback();
 			throw ex;
 		}
+		
 		zatvaranjeVezeNaBazuPodataka(veza);
 	}
-
+	
 	public static List<Senzor> dohvatiSenzore() throws SQLException, IOException {
 		Connection veza = spajanjeNaBazuPodataka();
 		Statement statementSenzora = veza.createStatement();
@@ -264,5 +263,28 @@ public class BazaPodataka {
 		zatvaranjeVezeNaBazuPodataka(veza);
 		
 		return listaSenzora;
+	}
+	
+	public static void spremiSenzor(Senzor senzor) throws SQLException, IOException {
+		Connection veza = spajanjeNaBazuPodataka();
+		veza.setAutoCommit(false);
+		
+		try {
+			PreparedStatement insertSenzor = veza.prepareStatement("INSERT INTO POSTAJE.SENZOR (MJERNA_JEDINICA, PRECIZNOST, VRIJEDNOST, RAD_SENZORA, MJERNA_POSTAJA_ID) VALUES (?, ?, ?, ?, ?);");
+			insertSenzor.setString(1, senzor.getMjernaJedinica());
+			Integer preciznostSenzora = (int) senzor.getPreciznostSenzora();
+			insertSenzor.setDouble(2, preciznostSenzora.doubleValue());
+			insertSenzor.setDouble(3, senzor.getVrijednostMjerenja().doubleValue());
+			insertSenzor.setString(4, senzor.getRadSenzora().toString());
+			insertSenzor.setInt(5, senzor.getMjernaPostaja().getId());
+			insertSenzor.executeUpdate();
+			veza.commit();
+			veza.setAutoCommit(true);
+
+		} catch (Throwable ex) {
+			veza.rollback();
+			throw ex;
+		}
+		zatvaranjeVezeNaBazuPodataka(veza);
 	}
 }

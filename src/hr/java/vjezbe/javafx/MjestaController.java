@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import hr.java.vjezbe.baza.podataka.BazaPodataka;
 import hr.java.vjezbe.entitet.Mjesto;
+import hr.java.vjezbe.glavna.Glavna;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -55,9 +56,7 @@ public class MjestaController {
 		
 		try {
 			listaMjesta = BazaPodataka.dohvatiMjesta();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 		}
 		
@@ -79,6 +78,12 @@ public class MjestaController {
 	public static void dodajNovoMjesto(int key, Mjesto novoMjesto) {
 		
 		listaMjesta.add(novoMjesto);
+		try {
+			BazaPodataka.spremiMjesto(novoMjesto);
+		} catch (SQLException | IOException e) {
+			Glavna.logger.error("Neuspješan upis mjesta u bazu!");
+			e.printStackTrace();
+		}
 		Main.observableListaMjesta = FXCollections.observableArrayList(listaMjesta);
 		Main.prikaziEkranMjesta();		
 	}

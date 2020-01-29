@@ -34,7 +34,7 @@
                      </FlowPane.margin></Button>
                </children>
             </FlowPane>
-            <TableView fx:id="drzaveTableView" prefHeight="247.0" prefWidth="341.0">
+            <TableView fx:id="drzaveTableView" onMouseClicked="#izmijeniDrzavu" prefHeight="247.0" prefWidth="341.0">
                <columns>
                   <TableColumn fx:id="nazivColumn" prefWidth="140.0" text="Naziv" />
                   <TableColumn fx:id="povrsinaColumn" prefWidth="100.0" text="Površina" />

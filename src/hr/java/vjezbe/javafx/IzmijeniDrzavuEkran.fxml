@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.java.vjezbe.javafx.DodajDrzavuController">
+<BorderPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.java.vjezbe.javafx.IzmijeniDrzavuController">
 	<top>
-      <Label text="Unesite podatke za novu državu:" BorderPane.alignment="CENTER">
+      <Label text="Izmijeni podatke za državu:" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="20.0" top="20.0" />
          </BorderPane.margin></Label>
@@ -35,7 +35,7 @@
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin></Label>
-            <TextField fx:id="nazivTextfield" GridPane.columnIndex="1">
+            <TextField fx:id="nazivTextField" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets right="20.0" />
                </GridPane.margin></TextField>
@@ -47,7 +47,7 @@
       </GridPane>
    </center>
    <bottom>
-      <Button fx:id="spremiButton" mnemonicParsing="false" onAction="#spremiPodatke" text="Spremi" BorderPane.alignment="CENTER">
+      <Button fx:id="izmijeniButton" mnemonicParsing="false" onAction="#izmijeniPodatke" text="Izmijeni" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="20.0" top="20.0" />
          </BorderPane.margin></Button>

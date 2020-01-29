@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import hr.java.vjezbe.baza.podataka.BazaPodataka;
 import hr.java.vjezbe.entitet.Zupanija;
+import hr.java.vjezbe.glavna.Glavna;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -45,9 +46,7 @@ public class ZupanijeController {
 		
 		try {
 			listaZupanija = BazaPodataka.dohvatiZupanije();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 		}
 		
@@ -69,6 +68,12 @@ public class ZupanijeController {
 	public static void dodajNovuZupaniju(int noviId, Zupanija novaZupanija) {
 		
 		listaZupanija.add(novaZupanija);
+		try {
+			BazaPodataka.spremiZupaniju(novaZupanija);
+		} catch (SQLException | IOException e) {
+			Glavna.logger.error("Neuspješan upis županije u bazu!");
+			e.printStackTrace();
+		}
 		Main.observableListaZupanija = FXCollections.observableArrayList(listaZupanija);
 		Main.prikaziEkranZupanije();	
 		

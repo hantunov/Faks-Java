@@ -8,21 +8,28 @@ import java.util.stream.Collectors;
 
 import hr.java.vjezbe.baza.podataka.BazaPodataka;
 import hr.java.vjezbe.entitet.Drzava;
+import hr.java.vjezbe.glavna.Glavna;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class DrzaveController {
 
 	private static List<Drzava> listaDrzava;
+	public static Drzava odabranaDrzava = null;
 	
 	@FXML
 	private TextField drzaveFilterTextField;
@@ -46,9 +53,7 @@ public class DrzaveController {
 		
 		try {
 			listaDrzava = BazaPodataka.dohvatiDrzave();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 		}
 		
@@ -70,8 +75,33 @@ public class DrzaveController {
 	public static void dodajNovuDrzavu(int noviId, Drzava novaDrzava) {
 
 		listaDrzava.add(novaDrzava);
+		try {
+			BazaPodataka.spremiDrzavu(novaDrzava);
+		} catch (SQLException | IOException e) {
+			Glavna.logger.error("Neuspješan upis države u bazu!");
+			e.printStackTrace();
+		}
 		Main.observableListaDrzava = FXCollections.observableArrayList(listaDrzava);
 		Main.prikaziEkranDrzave();		
 	}
 	
+	public void izmijeniDrzavu(MouseEvent click) {
+        odabranaDrzava = drzaveTableView.getSelectionModel().getSelectedItem();
+        
+        if (odabranaDrzava != null) {
+        	System.out.println(odabranaDrzava.getId() + " " + odabranaDrzava.getNaziv());   	
+        	
+        	try {
+    			BorderPane novaDrzavaPane = FXMLLoader.load(Main.class.getResource("IzmijeniDrzavuEkran.fxml"));
+    			Scene scene = new Scene(novaDrzavaPane, 400, 400);
+    			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+    			Stage stage = new Stage();
+    			stage.setScene(scene);
+    			stage.show();
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+        }
+        
+     }
 }

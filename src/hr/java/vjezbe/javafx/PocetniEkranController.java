@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import hr.java.vjezbe.baza.podataka.BazaPodataka;
@@ -12,6 +15,8 @@ import hr.java.vjezbe.entitet.MjernaPostaja;
 import hr.java.vjezbe.entitet.Mjesto;
 import hr.java.vjezbe.entitet.Senzor;
 import hr.java.vjezbe.entitet.Zupanija;
+import hr.java.vjezbe.niti.SenzoriNit;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -19,6 +24,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
@@ -48,7 +55,7 @@ public class PocetniEkranController {
 	private TableColumn<Mjesto, String> zupanijaColumn;
 	
 	@FXML
-	public void initialize() {
+	public void initialize() {		
 		nazivColumn.setCellValueFactory(new PropertyValueFactory<Mjesto, String>("naziv"));
 		tipColumn.setCellValueFactory(
 				new Callback<TableColumn.CellDataFeatures<Mjesto, String>, ObservableValue<String>>() {
@@ -83,10 +90,25 @@ public class PocetniEkranController {
 		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 		}
-				
+		
+		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+		SenzoriNit senzoriNit = new SenzoriNit();
+		scheduler.scheduleAtFixedRate(senzoriNit, 0, 10, TimeUnit.SECONDS);
 		
 		//mjestaTableView.setItems(Main.observableListaMjesta);
 		
+	}
+	
+	public static void prikaziObavijestNegVrijedSenzora() {
+		
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setContentText("Senzor ispod nule");
+				alert.show();
+			}
+			});		
 	}
 
 	public void prikaziMjesta() {
