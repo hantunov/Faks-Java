@@ -1,6 +1,7 @@
 package hr.java.vjezbe.entitet;
 
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Sadrzi cetiri clanske varijable - String naziv, Mjesto mjesto, GeografskaTocka geografskaTocka i Senzor[] senzori. Sve imaju public get i set metode.
@@ -18,23 +19,24 @@ public class MjernaPostaja {
 	private String naziv;
 	private Mjesto mjesto;
 	private GeografskaTocka geografskaTocka;
-	private Senzor[] senzori;
+	private List<Senzor> senzori;
 	
-	public MjernaPostaja(String naziv, Mjesto mjesto, GeografskaTocka geografskaTocka, Senzor[] senzori) {
+	public MjernaPostaja(String naziv, Mjesto mjesto, GeografskaTocka geografskaTocka, List<Senzor> senzori) {
 		this.naziv = naziv;
 		this.mjesto = mjesto;
 		this.geografskaTocka = geografskaTocka;
 		this.senzori = senzori;
 	}
 	
+
 	/**
-	 * Metoda dohvaca polje senzora iz objekta, sortira ga po imenu mjerne jedinice (po abecedi uzlazno) i vraca sortirano polje.
+	 * Metoda dohvaca ArrayList senzora iz objekta, sortira ga po imenu mjerne jedinice (po abecedi uzlazno) i vraca sortiranu listu.
 	 * 
 	 * @return sortirano polje senzora
 	 */
 	
-	public Senzor[] dohvatiSenzore() {
-		Arrays.sort(senzori, (p1, p2) -> p1.getMjernaJedinica().compareTo(p2.getMjernaJedinica()));
+	public List<Senzor> dohvatiSenzore() {
+		Collections.sort(senzori, (p1, p2) -> p1.getMjernaJedinica().compareTo(p2.getMjernaJedinica()));
 		return senzori;
 	}
 	
@@ -62,11 +64,11 @@ public class MjernaPostaja {
 		this.geografskaTocka = geografskaTocka;
 	}
 
-	public Senzor[] getSenzori() {
+	public List<Senzor> getSenzori() {
 		return senzori;
 	}
 
-	public void setSenzori(Senzor[] senzori) {
+	public void setSenzori(List<Senzor> senzori) {
 		this.senzori = senzori;
 	}
 

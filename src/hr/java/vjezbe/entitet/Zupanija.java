@@ -1,5 +1,8 @@
 package hr.java.vjezbe.entitet;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Sadrzi dvije clanske varijable - String naziv i Drzava drzava, obje imaju public get i set metode.
  * 
@@ -13,11 +16,12 @@ public class Zupanija {
 	
 	private String naziv;
 	private Drzava drzava;
+	private List<Mjesto> mjesta;
 			
 	public Zupanija(String naziv, Drzava drzava) {
-		super();
 		this.naziv = naziv;
 		this.drzava = drzava;
+		this.mjesta = new ArrayList<>();
 	}
 	
 	public String getNaziv() {
@@ -32,5 +36,8 @@ public class Zupanija {
 	public void setDrzava(Drzava drzava) {
 		this.drzava = drzava;
 	}
-	
+
+	public List<Mjesto> getMjesta() {
+		return mjesta;
+	}	
 }

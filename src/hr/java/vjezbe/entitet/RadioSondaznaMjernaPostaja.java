@@ -1,5 +1,7 @@
 package hr.java.vjezbe.entitet;
 
+import java.util.List;
+
 /**
  * Sadrzi jednu clansku varijablu - int visinaRadioSondaznePostaje koja ima public get i set metode.
  * 
@@ -13,8 +15,7 @@ public class RadioSondaznaMjernaPostaja extends MjernaPostaja implements RadioSo
 
 	private int visinaRadioSondaznePostaje;
 
-	public RadioSondaznaMjernaPostaja(String naziv, Mjesto mjesto, GeografskaTocka geografskaTocka, Senzor[] senzori,
-			int visinaRadioSondaznePostaje) {
+	public RadioSondaznaMjernaPostaja(String naziv, Mjesto mjesto, GeografskaTocka geografskaTocka, List<Senzor> senzori, int visinaRadioSondaznePostaje) {
 		super(naziv, mjesto, geografskaTocka, senzori);
 		this.visinaRadioSondaznePostaje = visinaRadioSondaznePostaje;
 	}

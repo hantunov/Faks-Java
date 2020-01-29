@@ -32,7 +32,7 @@ public class SenzorTemperature extends Senzor {
 	
 	@Override
 	public String dohvatiVrijednost() {
-		String str = "Komponenta: " + this.nazivElektroKomponente + ", vrijednost: " + this.getVrijednostMjerenja() + super.getMjernaJedinica();
+		String str = "Komponenta: " + this.nazivElektroKomponente + ", vrijednost: " + this.getVrijednostMjerenja() + super.getMjernaJedinica() + ", način rada: " + super.getRadSenzora();
 		return str;
 	}
 	

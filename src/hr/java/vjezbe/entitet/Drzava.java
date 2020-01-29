@@ -1,6 +1,8 @@
 package hr.java.vjezbe.entitet;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Sadrzi dvije clanske varijable - String naziv i BigDecimal povrsina, obje imaju public getter i setter metode.
@@ -15,11 +17,12 @@ public class Drzava {
 	
 	private String naziv;
 	private BigDecimal povrsina;
-	
+	private List<Zupanija> zupanije;
+
 	public Drzava(String naziv, BigDecimal povrsina) {
-		super();
 		this.naziv = naziv;
 		this.povrsina = povrsina;
+		this.zupanije = new ArrayList<>();
 	}
 
 	public String getNaziv() {
@@ -37,4 +40,9 @@ public class Drzava {
 	public void setPovrsina(BigDecimal povrsina) {
 		this.povrsina = povrsina;
 	}
+	
+	public List<Zupanija> getZupanije() {
+		return zupanije;
+	}
+	
 }

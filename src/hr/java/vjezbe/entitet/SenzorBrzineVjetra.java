@@ -23,7 +23,7 @@ public class SenzorBrzineVjetra extends Senzor {
 	
 	@Override
 	public String dohvatiVrijednost() {
-		String str = "Vrijednost: " + this.getVrijednostMjerenja() + " " + super.getMjernaJedinica();
+		String str = "Vrijednost: " + this.getVrijednostMjerenja() + " " + super.getMjernaJedinica() + ", način rada: " + super.getRadSenzora();
 		return str;
 	}
 

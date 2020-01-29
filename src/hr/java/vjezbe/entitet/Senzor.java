@@ -16,6 +16,7 @@ public abstract class Senzor {
 	private String mjernaJedinica;
 	private byte preciznostSenzora;
 	private BigDecimal vrijednostMjerenja;
+	private RadSenzora radSenzora;
 	
 	public Senzor(String mjernaJedinica, byte preciznostSenzora) {
 		this.mjernaJedinica = mjernaJedinica;
@@ -52,5 +53,13 @@ public abstract class Senzor {
 
 	public void setVrijednostMjerenja(BigDecimal vrijednostMjerenja) {
 		this.vrijednostMjerenja = vrijednostMjerenja;
-	}	
+	}
+
+	public RadSenzora getRadSenzora() {
+		return radSenzora;
+	}
+
+	public void setRadSenzora(RadSenzora radSenzora) {
+		this.radSenzora = radSenzora;
+	}
 }
